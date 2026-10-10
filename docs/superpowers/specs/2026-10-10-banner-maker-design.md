@@ -15,7 +15,7 @@ velog 썸네일용 배너를 브라우저에서 만들어 PNG로 내려받는 �
 | 배경색 | 팔레트와 hex 직접 입력, 미리보기 칩. 처음 열 때 랜덤 색 |
 | 글자색 | 배경색과 같은 컨트롤(ColorField)을 재사용. 기본값 `#FFFFFF` |
 | 글꼴 | 아래 목록에서 선택. 기본값 Pretendard |
-| 글자 크기 | 슬라이더와 숫자 입력, 16~120px. 기본값 40px |
+| 글자 크기 | 슬라이더(현재 값 표시), 16~120px, 기본 40px |
 | 배경 이미지 | 로컬 파일 업로드, cover 방식으로 채움, 제거 가능. 배경색 위에 그린다 |
 | 다운로드 | 700×350 PNG를 `banner.png`로 저장 |
 
@@ -25,7 +25,7 @@ velog 썸네일용 배너를 브라우저에서 만들어 PNG로 내려받는 �
 
 ## 3. 기술 스택
 
-- Vite, React 18, TypeScript
+- Vite, React 19, TypeScript
 - `react-colorful`: 색상 팔레트
 - 폰트: `pretendard` npm 패키지, `@fontsource/*` 패키지. 빌드 결과물에 포함한다
 - Vitest: 단위 테스트
@@ -56,8 +56,9 @@ src/
 ├── App.tsx                 # BannerState 보유, 레이아웃
 ├── types.ts                # BannerState
 ├── lib/
-│   ├── fonts.ts            # FONTS 목록, loadFont(family, size): Promise<boolean>
+│   ├── fonts.ts            # FONTS 목록, loadFont(font, size, text): Promise<boolean>
 │   ├── renderBanner.ts     # renderBanner(ctx, state), 순수 헬퍼(splitLines, coverRect, lineOffsets)
+│   ├── image.ts            # validateImageFile, loadImage
 │   ├── download.ts         # downloadCanvas(canvas, filename)
 │   └── color.ts            # randomColor(), isValidHex(), normalizeHex()
 ├── components/
@@ -81,7 +82,7 @@ type BannerState = {
 };
 ```
 
-`BannerPreview`는 canvas ref를 `forwardRef`로 노출한다. `DownloadButton`은 이 ref를 받아 같은 캔버스를 PNG로 내보낸다.
+`App`이 `canvasRef`를 만들어 `BannerPreview`와 `DownloadButton`에 prop으로 넘긴다.
 
 ## 6. 데이터 흐름
 
@@ -99,7 +100,7 @@ dataURL을 state에 두지 않는다. 그래서 원본에서 생기던 무한 �
 
 - **폰트 로딩**
   - `document.fonts.load()`와 3초 타임아웃을 경쟁시킨다.
-  - 실패하거나 시간이 넘으면 `sans-serif`로 먼저 그린다. 나중에 폰트가 도착하면 다시 그린다.
+  - 실패하거나 시간이 넘으면 `sans-serif`로 먼저 그린다. 나중에 폰트가 도착하면 다시 그린다. 늦게 도착한 폰트는 document.fonts의 loadingdone 이벤트로 감지해 다시 그린다.
   - 로딩 중에는 "폰트 로딩 중…"을 표시한다.
   - effect가 정리될 때 플래그를 세워, 지난 요청의 결과로 다시 그리지 않게 한다.
 - **hex 입력**

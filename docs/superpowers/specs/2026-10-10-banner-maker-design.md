@@ -57,7 +57,7 @@ src/
 ├── types.ts                # BannerState
 ├── lib/
 │   ├── fonts.ts            # FONTS 목록, loadFont(font, size, text): Promise<boolean>
-│   ├── renderBanner.ts     # renderBanner(ctx, state), 순수 헬퍼(splitLines, coverRect, lineOffsets)
+│   ├── renderBanner.ts     # renderBanner(ctx, state, fontWeight), 순수 헬퍼(splitLines, coverRect, lineOffsets)
 │   ├── image.ts            # validateImageFile, loadImage
 │   ├── download.ts         # downloadCanvas(canvas, filename)
 │   └── color.ts            # randomColor(), isValidHex(), normalizeHex()
@@ -88,7 +88,7 @@ type BannerState = {
 
 1. 입력이 바뀌면 `App`의 `setState`가 호출된다.
 2. `BannerPreview`의 `useEffect`가 `loadFont(font, fontSize, text)`를 실행한다.
-3. 로딩이 끝나면 `renderBanner(ctx, state)`를 호출한다.
+3. 로딩이 끝나면 `renderBanner(ctx, state, font.weight)`를 호출한다.
    1. 배경색을 채운다.
    2. `bgImage`가 있으면 `coverRect`로 계산한 영역에 그린다.
    3. 텍스트를 줄 단위로 그린다. `textAlign=center`, `textBaseline=middle`, 줄 높이는 `fontSize × 1.3`이고, 전체 블록을 세로 중앙에 놓는다.

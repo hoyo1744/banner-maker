@@ -1,0 +1,10 @@
+// 폰트 CSS(@font-face). 브라우저는 실제로 쓰는 weight와 unicode-range 파일만 내려받는다.
+import 'pretendard/dist/web/static/pretendard-dynamic-subset.css'
+import '@fontsource/noto-sans-kr/400.css'
+import '@fontsource/noto-serif-kr/400.css'
+import '@fontsource/nanum-gothic/400.css'
+import '@fontsource/nanum-myeongjo/400.css'
+import '@fontsource/nanum-pen-script/400.css'
+import '@fontsource/black-han-sans/400.css'
+import '@fontsource/do-hyeon/400.css'
+import '@fontsource/jua/400.css'

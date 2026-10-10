@@ -87,7 +87,7 @@ type BannerState = {
 ## 6. 데이터 흐름
 
 1. 입력이 바뀌면 `App`의 `setState`가 호출된다.
-2. `BannerPreview`의 `useEffect`가 `loadFont(fontFamily, fontSize)`를 실행한다.
+2. `BannerPreview`의 `useEffect`가 `loadFont(font, fontSize, text)`를 실행한다.
 3. 로딩이 끝나면 `renderBanner(ctx, state)`를 호출한다.
    1. 배경색을 채운다.
    2. `bgImage`가 있으면 `coverRect`로 계산한 영역에 그린다.
